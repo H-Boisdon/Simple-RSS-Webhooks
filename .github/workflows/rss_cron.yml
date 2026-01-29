@@ -8,7 +8,7 @@ on:
   workflow_dispatch: # Allows manual trigger button for testing
 
 permissions:
-  contents: write # REQUIRED: Allows the bot to commit data.json back to the repo
+  contents: write # REQUIRED: Allows the bot to commit cache/data.json back to the repo
 
 jobs:
   run-monitor:
@@ -36,15 +36,15 @@ jobs:
           # We don't need CHECK_INTERVAL here since the Cron handles the timing
         run: python src/rss_webhook.py
 
-      - name: Save Memory (Commit data.json)
-        # Only run this if the script changed data.json
+      - name: Save Memory (Commit cache/data.json)
+        # Only run this if the script changed cache/data.json
         run: |
           git config --global user.name "RSS Bot"
           git config --global user.email "bot@noreply.github.com"
           
-          # Check if data.json changed
-          if [[ -n $(git status --porcelain data.json) ]]; then
-            git add data.json
+          # Check if cache/data.json changed
+          if [[ -n $(git status --porcelain cache/data.json) ]]; then
+            git add cache/data.json
             git commit -m "🤖 Update video history [skip ci]"
             git push
           else
