@@ -22,21 +22,21 @@ logging.basicConfig(
 CONFIG_DIR = Path(__file__).resolve().parent
 ENV_FILE_PATH = CONFIG_DIR / "settings.env"
 
-# --- FAILSAFE ---
-if not ENV_FILE_PATH.exists():
-    with open(ENV_FILE_PATH, "w") as f:
-        f.write(
-            "ENV=dev\n\n"
-            "WEBHOOK_URL=https://discord.com/api/webhooks/...\n"
-            "RSS_FEED_URL=https://...\n"
-            "CHECK_INTERVAL=60\n"
-            "DATA_FILE=data.json\n"
-        )
-    raise RuntimeError(
-        f"Settings file missing.\n"
-        f"Created default at: {ENV_FILE_PATH}\n"
-        "Please edit it with your actual URLs and restart."
-    )
+# # --- FAILSAFE ---
+# if not ENV_FILE_PATH.exists():
+#     with open(ENV_FILE_PATH, "w") as f:
+#         f.write(
+#             "ENV=dev\n\n"
+#             "WEBHOOK_URL=https://discord.com/api/webhooks/...\n"
+#             "RSS_FEED_URL=https://...\n"
+#             "CHECK_INTERVAL=60\n"
+#             "DATA_FILE=data.json\n"
+#         )
+#     raise RuntimeError(
+#         f"Settings file missing.\n"
+#         f"Created default at: {ENV_FILE_PATH}\n"
+#         "Please edit it with your actual URLs and restart."
+#     )
 
 
 class Settings(BaseSettings):

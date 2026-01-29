@@ -81,36 +81,36 @@ def main():
             f"Initialized. Skipped {len(knownIds)} existing feed items as seen."
         )
 
-    while True:
-        try:
-            feed = parse(str(settings.rssFeedUrl))
-            if feed.bozo:
-                logging.warning("Feed data might be malformed.")
+    # while True:
+    try:
+        feed = parse(str(settings.rssFeedUrl))
+        if feed.bozo:
+            logging.warning("Feed data might be malformed.")
 
-            newItemFound = False
+        newItemFound = False
 
-            for entry in reversed(feed.entries):
-                id = entry.link
-                if entry.id:
-                    id = entry.id
-                if id in knownIds:
-                    continue
+        for entry in reversed(feed.entries):
+            id = entry.link
+            if entry.id:
+                id = entry.id
+            if id in knownIds:
+                continue
 
-                entry_data = extract_youtube_data(entry)
+            entry_data = extract_youtube_data(entry)
 
-                logging.info(f"New feed item of id: {id}")
-                send_webhook(entry_data)
-                knownIds.add(id)
-                newItemFound = True
-                time.sleep(1)
+            logging.info(f"New feed item of id: {id}")
+            send_webhook(entry_data)
+            knownIds.add(id)
+            newItemFound = True
+            time.sleep(1)
 
-            if newItemFound:
-                save_data(knownIds)
+        if newItemFound:
+            save_data(knownIds)
 
-        except Exception as e:
-            logging.error(f"Unexpected error:\n{e}\n", exc_info=True)
+    except Exception as e:
+        logging.error(f"Unexpected error:\n{e}\n", exc_info=True)
 
-        time.sleep(settings.checkInterval)
+    # time.sleep(settings.checkInterval)
 
 
 if __name__ == "__main__":
